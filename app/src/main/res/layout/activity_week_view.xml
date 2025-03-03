@@ -8,12 +8,24 @@
     android:orientation="vertical"
     tools:context=".WeekViewActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:text="Visão diária"
+        android:textColor="@color/blue"
+        android:background="@android:color/transparent"
+        android:textStyle="bold"
+        android:onClick="dailyAction"
+        android:textSize="20sp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginBottom="20dp"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp">
 
         <Button
             android:layout_width="0dp"
@@ -31,7 +43,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:text="Março de 2025"
+            android:text="março de 2025"
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"/>
@@ -130,7 +142,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Novo Evento"
+        android:text="Criar evento"
         android:textColor="@color/blue"
         android:background="@android:color/transparent"
         android:textStyle="bold"

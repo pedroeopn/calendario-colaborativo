@@ -8,18 +8,18 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:background="@android:color/transparent"
-        android:onClick="weeklyAction"
+        android:layout_gravity="center"
         android:text="Visão semanal"
         android:textColor="@color/blue"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:background="@android:color/transparent"
+        android:textStyle="bold"
+        android:onClick="weeklyAction"
+        android:textSize="20sp"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="wrap_content"
-            android:text="Março de 2025"
+            android:text="março de 2025"
             android:textSize="20sp"
             android:textAlignment="center"
             android:textColor="@color/black"/>

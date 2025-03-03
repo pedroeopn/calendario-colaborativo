@@ -29,9 +29,9 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        if(days.size() > 15) //visualizacao por mes
+        if(days.size() > 15) //month view
             layoutParams.height = (int) (parent.getHeight() * 0.166666666);
-        else //visualizacao por semana
+        else // week view
             layoutParams.height = (int) parent.getHeight();
 
         return new CalendarViewHolder(view, onItemListener, days);
@@ -41,14 +41,16 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
     {
         final LocalDate date = days.get(position);
-        if(date == null)
-            holder.dayOfMonth.setText("");
+
+        holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
+
+        if(date.equals(CalendarUtils.selectedDate))
+            holder.parentView.setBackgroundColor(Color.LTGRAY);
+
+        if(date.getMonth().equals(CalendarUtils.selectedDate.getMonth()))
+            holder.dayOfMonth.setTextColor(Color.BLACK);
         else
-        {
-            holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
-            if(date.equals(CalendarUtils.selectedDate))
-                holder.parentView.setBackgroundColor(Color.LTGRAY);
-        }
+            holder.dayOfMonth.setTextColor(Color.LTGRAY);
     }
 
     @Override

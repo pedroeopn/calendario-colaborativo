@@ -91,4 +91,12 @@ public class DailyCalendarActivity extends AppCompatActivity
     {
         startActivity(new Intent(this, EventEditActivity.class));
     }
+
+    public void backToWeekView(View view) {
+        // Cria uma nova intenção para voltar à MainActivity (visão mensal)
+        Intent intent = new Intent(DailyCalendarActivity.this, WeekViewActivity.class);
+        startActivity(intent);
+        // Finaliza a atividade atual para que o usuário não volte nela ao pressionar "Voltar"
+        finish();
+    }
 }

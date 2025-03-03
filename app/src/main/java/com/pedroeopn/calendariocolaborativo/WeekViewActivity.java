@@ -95,4 +95,21 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     {
         startActivity(new Intent(this, DailyCalendarActivity.class));
     }
+
+    public void updateEventList(LocalDate selectedDate)
+    {
+        ArrayList<Event> eventsForSelectedDate = Event.eventsForDate(selectedDate);
+        EventAdapter eventAdapter = new EventAdapter(this, eventsForSelectedDate);
+        ListView eventListView = findViewById(R.id.eventListView);
+        eventListView.setAdapter(eventAdapter);
+    }
+
+    public void backToMonthView(View view) {
+        // Cria uma nova intenção para voltar à MainActivity (visão mensal)
+        Intent intent = new Intent(WeekViewActivity.this, MainActivity.class);
+        startActivity(intent);
+        // Finaliza a atividade atual para que o usuário não volte nela ao pressionar "Voltar"
+        finish();
+    }
+
 }

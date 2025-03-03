@@ -156,5 +156,17 @@
         android:layout_height="0dp"
         android:layout_weight="5"/>
 
+    <Button
+        android:id="@+id/backToMonthViewButton"
+        android:layout_width="306dp"
+        android:layout_height="93dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:onClick="backToMonthView"
+        android:text="Voltar para visão Mensal"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
 
 </LinearLayout>

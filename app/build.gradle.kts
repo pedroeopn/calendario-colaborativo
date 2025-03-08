@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.gms.google.services)
+    //id("com.google.gms.google-services") // Plugin necessário para o Firebase
 }
 
 android {
@@ -39,4 +41,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    implementation("com.google.gms:google-services:4.4.2")
+
+    // Importa o BoM do Firebase para centralizar as versões
+    implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
+
+    // Dependência para o Cloud Firestore
+    implementation("com.google.firebase:firebase-firestore")
 }

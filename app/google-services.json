@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "324794260012",
+    "project_id": "calendario-colaborativo-4b6c3",
+    "storage_bucket": "calendario-colaborativo-4b6c3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324794260012:android:4f305665a1041ad22dcf89",
+        "android_client_info": {
+          "package_name": "com.pedroeopn.calendariocolaborativo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkPJwBH_4Rptjal6rBB4z5gGSpHqn9a8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

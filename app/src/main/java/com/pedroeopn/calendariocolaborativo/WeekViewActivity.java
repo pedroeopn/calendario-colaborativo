@@ -6,17 +6,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.daysInMonthArray;
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.daysInWeekArray;
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.monthYearFromDate;
+
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.ListenerRegistration;
 
 public class WeekViewActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
@@ -28,6 +34,9 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        if (FirebaseApp.getApps(this).isEmpty()) {
+            FirebaseApp.initializeApp(this);
+        }
         setContentView(R.layout.activity_week_view);
         initWidgets();
         setWeekView();
@@ -79,11 +88,58 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setEventAdpater();
     }
 
-    private void setEventAdpater()
-    {
-        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
-        eventListView.setAdapter(eventAdapter);
+    private ListenerRegistration eventListenerRegistration;
+
+    private void setEventAdpater() {
+        if (CalendarUtils.selectedDate == null) {
+            Log.e("WeekViewActivity", "CalendarUtils.selectedDate is null.");
+            return;
+        }
+        FirestoreRepository repository = new FirestoreRepository();
+        // Remove any existing listener to avoid duplicate updates.
+        if (eventListenerRegistration != null) {
+            eventListenerRegistration.remove();
+        }
+        // Listen for events for the selected date.
+        eventListenerRegistration = repository.subscribeToEventsForDate(
+                CalendarUtils.selectedDate.toString(),
+                (querySnapshot, error) -> {
+                    if (error != null) {
+                        Toast.makeText(getApplicationContext(),
+                                "Error loading events: " + error.getMessage(),
+                                Toast.LENGTH_SHORT).show();
+                        Log.e("WeekViewActivity", "Error loading events", error);
+                        return;
+                    }
+                    ArrayList<Event> dailyEvents = new ArrayList<>();
+                    if (querySnapshot != null) {
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                            String name = document.getString("name");
+                            String dateString = document.getString("date");
+                            String timeString = document.getString("time");
+                            if (name == null || dateString == null || timeString == null) {
+                                Log.w("WeekViewActivity", "Document " + document.getId() + " has missing fields.");
+                                continue;
+                            }
+                            try {
+                                LocalDate date = LocalDate.parse(dateString);
+                                LocalTime time = LocalTime.parse(timeString);
+                                dailyEvents.add(new Event(name, date, time));
+                            } catch (Exception e) {
+                                Log.e("WeekViewActivity", "Error parsing date/time for document " + document.getId(), e);
+                            }
+                        }
+                    }
+                    runOnUiThread(() -> {
+                        if (eventListView != null) {
+                            EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
+                            eventListView.setAdapter(eventAdapter);
+                        } else {
+                            Log.e("WeekViewActivity", "eventListView is null. Check widget initialization.");
+                        }
+                    });
+                }
+        );
     }
 
     public void newEventAction(View view)

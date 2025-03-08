@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.daysInMonthArray;
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.monthYearFromDate;
 
+import com.google.firebase.FirebaseApp;
+
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        FirebaseApp.initializeApp(this);
+
         setContentView(R.layout.activity_main);
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
@@ -73,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         }
     }
 
-    public void weeklyAction(View view)
-    {
-        startActivity(new Intent(this, WeekViewActivity.class));
+    public void weeklyAction(View view) {
+        Intent intent = new Intent(this, WeekViewActivity.class);
+        startActivity(intent);
     }
 }

@@ -38,7 +38,7 @@ public class EventEditActivity extends AppCompatActivity
     public void saveEventAction(View view) {
         String eventName = eventNameET.getText().toString().trim();
         if (eventName.isEmpty()) {
-            Toast.makeText(this, "Event name cannot be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "O nome do evento não pode ser vazio", Toast.LENGTH_SHORT).show();
             return;
         }
         // Create the event object

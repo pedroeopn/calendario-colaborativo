@@ -48,4 +48,6 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.10.0"))
     // Firestore dependency
     implementation("com.google.firebase:firebase-firestore")
+    // Google ADS dependency
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
 }

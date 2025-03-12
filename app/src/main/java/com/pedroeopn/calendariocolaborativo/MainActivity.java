@@ -1,9 +1,11 @@
 package com.pedroeopn.calendariocolaborativo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,10 +20,16 @@ import java.util.ArrayList;
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.daysInMonthArray;
 import static com.pedroeopn.calendariocolaborativo.CalendarUtils.monthYearFromDate;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
+    private AdView mAdView;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 

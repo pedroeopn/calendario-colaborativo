@@ -1,13 +1,12 @@
 package com.pedroeopn.calendariocolaborativo;
 
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,7 +16,7 @@ public class FirestoreRepository {
 
     public FirestoreRepository() {
         db = FirebaseFirestore.getInstance();
-        // Explicitly enable offline persistence (note: offline persistence is enabled by default on mobile)
+        // Ativa a persistência offline (normalmente já está ativada nos dispositivos)
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .build();
@@ -25,17 +24,17 @@ public class FirestoreRepository {
         eventsCollection = db.collection("events");
     }
 
-    // Subscribes to realtime updates for events with the specified date.
+    // Inscreve-se para atualizações em tempo real dos eventos com a data especificada.
     public ListenerRegistration subscribeToEventsForDate(String date, EventListener<QuerySnapshot> listener) {
         return eventsCollection.whereEqualTo("date", date)
                 .addSnapshotListener(listener);
     }
 
-    // Adds a new event to Firestore.
+    // Adiciona um novo evento ao Firestore.
     public void addEvent(Event event, OnOperationCompleteListener listener) {
         Map<String, Object> data = new HashMap<>();
         data.put("name", event.getName());
-        data.put("date", event.getDate().toString()); // ISO-8601 formatted, for example
+        data.put("date", event.getDate().toString()); // Formato ISO-8601, por exemplo
         data.put("time", event.getTime().toString());
 
         eventsCollection.add(data)
@@ -51,7 +50,7 @@ public class FirestoreRepository {
                 });
     }
 
-    // Updates an existing event. (Requires you to track the event’s document ID.)
+    // Atualiza um evento existente. (É necessário rastrear o ID do documento do evento)
     public void updateEvent(String eventId, Event event, OnOperationCompleteListener listener) {
         Map<String, Object> data = new HashMap<>();
         data.put("name", event.getName());
@@ -71,7 +70,7 @@ public class FirestoreRepository {
                 });
     }
 
-    // Deletes an event by its document ID.
+    // Deleta um evento a partir do ID do documento.
     public void deleteEvent(String eventId, OnOperationCompleteListener listener) {
         eventsCollection.document(eventId).delete()
                 .addOnSuccessListener(aVoid -> {

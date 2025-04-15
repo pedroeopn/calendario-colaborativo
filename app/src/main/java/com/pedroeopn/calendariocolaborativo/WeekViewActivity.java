@@ -155,8 +155,10 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     }
 
     private void loadAd() {
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        runOnUiThread(() -> {
+            mAdView = findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        });
     }
 }

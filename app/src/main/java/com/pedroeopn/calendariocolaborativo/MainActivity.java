@@ -1,12 +1,17 @@
 package com.pedroeopn.calendariocolaborativo;
 
+import android.Manifest;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,10 +34,10 @@ import com.google.firebase.FirebaseApp;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
-    private AdView mAdView;
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
+    private InterstitialAdManager adManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -45,6 +50,13 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // API 33
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
+        adManager = new InterstitialAdManager(this);
     }
 
     private void initWidgets()
